@@ -1,0 +1,20 @@
+{
+  "name": "alchemist",
+  "version": "0.8.1",
+  "description": "Microlibrary for multiple inheritance",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://myrepo"
+  },
+  "keywords": [
+    "mixin",
+    "multiple",
+    "inheritance"
+  ],
+  "author": "Alexander Paschenko",
+  "license": "ISC"
+}
