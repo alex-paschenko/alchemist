@@ -7,8 +7,8 @@
 
 Alchemist is a fast, lightweight, zero-dependency ts/js package designed to restore the rightful throne to the most powerful and elegant aspect of OOP: multiple inheritance.
 
-<img src="docs/res/alchemist-300.png" alt="Alchemist Image" width="300" align="left">
-<div>
+<img src="docs/res/alchemist-800.png" alt="Alchemist Image" width="800">
+<div style="margin-left: 30px;">
   <h3>What’s included:</h3>
   <ul style="list-style-image: url('docs/res/green-check-mark-16.png');">
     <li>Building the prototype chain:
