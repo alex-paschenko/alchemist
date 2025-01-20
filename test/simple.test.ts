@@ -1,6 +1,6 @@
 import { alchemize } from '../src/alchemize';
 
-describe('Simple merging', () => {
+describe('alchemize - simple merging', () => {
   it('should merge two classes', () => {
     class A {
       a = "a";

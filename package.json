@@ -1,19 +1,34 @@
 {
-  "name": "alchemist",
-  "version": "0.8.1",
+  "name": "@elenka/alchemist",
+  "version": "0.6.1",
   "description": "Microlibrary for multiple inheritance",
-  "main": "index.js",
+  "main": "dist/cjs/alchemize.js",
+  "module": "dist/esm/alchemize.js",
+  "types": "dist/alchemize.d.ts",
+  "type":"module",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/alchemize.js",
+      "require": "./dist/cjs/alchemize.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
   "scripts": {
+    "build": "npm test && npm run update-badges && tsc && tsc --project tsconfig.cjs.json",
+    "update-badges": "NODE_OPTIONS=\"--loader ts-node/esm\" npx ts-node --project ./tsconfig.cjs.json ./build/updateBadges.cts",
     "test": "jest --coverage"
   },
   "repository": {
     "type": "git",
-    "url": "https://myrepo"
+    "url": "https://github.com/alex-paschenko/alchemist.git"
   },
   "keywords": [
     "mixin",
-    "multiple",
-    "inheritance"
+    "multiple inheritance",
+    "inheritance",
+    "merge classes"
   ],
   "author": "Alexander Paschenko",
   "license": "LGPL-3.0-or-later",

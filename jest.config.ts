@@ -18,7 +18,7 @@ const config: Config = {
     "!src/**/*.d.ts",
   ],
   coverageDirectory: "coverage",
-
+  coverageReporters: ["json", "lcov", "text", "clover"],
   testMatch: ['**/*.test.ts'],
 };
 

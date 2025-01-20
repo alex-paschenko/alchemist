@@ -1,70 +1,83 @@
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-type MergeClasses<TBaseClasses extends Constructor[]> = TBaseClasses extends [
+// Type for merging instance properties and methods
+type MergeInstance<TBaseClasses extends Constructor[]> = TBaseClasses extends [
   infer First extends Constructor,
   ...infer Rest extends Constructor[]
 ]
-  ? InstanceType<First> & MergeClasses<Rest>
+  ? InstanceType<First> & MergeInstance<Rest>
   : unknown;
+
+// Type for merging static properties and methods
+type MergeStatics<TBaseClasses extends Constructor[]> = TBaseClasses extends [
+  infer First extends Constructor,
+  ...infer Rest extends Constructor[]
+]
+  ? First & MergeStatics<Rest>
+  : unknown;
+
+// Combined type that includes both instance and static properties
+type MergeClasses<TBaseClasses extends Constructor[]> = Constructor<
+  MergeInstance<TBaseClasses>
+> &
+  MergeStatics<TBaseClasses>;
 
 function alchemize<TBaseClasses extends Constructor[]>(
   ...BaseClasses: TBaseClasses
-): Constructor<MergeClasses<TBaseClasses>> {  const CombinedClass = BaseClasses.reduce(
-    (Base: Constructor, Current: Constructor) => {
-      return class extends Base {
-        constructor(...args: any[]) {
-          super(...args);
-          Reflect.construct(Current, args, new.target);
-        }
-      };
-    },
-    class {} as Constructor
-  );
-
-  class Combined extends CombinedClass {
+): MergeClasses<TBaseClasses> {
+  // Create the combined class
+  class Combined {
     constructor(...args: any[]) {
-      super(...args);
-
+      // Initialize all base classes and assign their properties to `this`
       BaseClasses.forEach((BaseClass) => {
-        let current: any = BaseClass;
-        while (current && typeof current === "function") {
-          if (current.prototype) {
-            Object.assign(this, new current(...args));
-          }
-          current = Object.getPrototypeOf(current);
-        }
+        Object.assign(this, new BaseClass(...args));
       });
     }
 
+    // Support instanceof for all base classes
     static [Symbol.hasInstance](instance: any) {
       return BaseClasses.some((BaseClass) => instance instanceof BaseClass);
     }
   }
 
-  function copyProperties(target: any, source: any) {
-    if (['function', 'object'].includes(typeof source)) {
-      Reflect.ownKeys(source).forEach((key) => {
-        if (!["prototype", "name", "length"].includes(key as string)) {
-          Object.defineProperty(
-            target,
-            key,
-            Object.getOwnPropertyDescriptor(source, key)!
-          );
-        }
-      });
-    }
-  }
-
-  BaseClasses.forEach((BaseClass) => {
-    let current = BaseClass;
-    while (current) {
-      copyProperties(Combined, current);
-      copyProperties(Combined.prototype, current.prototype);
-      current = Object.getPrototypeOf(current);
+  // Start building the prototype chain from the most derived class
+  let currentPrototype = Combined.prototype;
+  [...BaseClasses].reverse().forEach((BaseClass) => {
+    // Ensure we don't create cycles
+    const baseProto = BaseClass.prototype;
+    if (!Object.prototype.isPrototypeOf.call(baseProto, currentPrototype)) {
+      Object.setPrototypeOf(currentPrototype, baseProto);
+      currentPrototype = baseProto;
     }
   });
 
-  return Combined as any;
+  // Copy static properties and methods
+  BaseClasses.forEach((BaseClass) => {
+    Reflect.ownKeys(BaseClass).forEach((key) => {
+      if (!["prototype", "name", "length"].includes(key as string)) {
+        Object.defineProperty(
+          Combined,
+          key,
+          Object.getOwnPropertyDescriptor(BaseClass, key)!
+        );
+      }
+    });
+  });
+
+  // Copy prototype methods and properties
+  BaseClasses.forEach((BaseClass) => {
+    Reflect.ownKeys(BaseClass.prototype).forEach((key) => {
+      if (key !== "constructor") {
+        Object.defineProperty(
+          Combined.prototype,
+          key,
+          Object.getOwnPropertyDescriptor(BaseClass.prototype, key)!
+        );
+      }
+    });
+  });
+
+  return Combined as MergeClasses<TBaseClasses>;
 }
 
 export { alchemize };

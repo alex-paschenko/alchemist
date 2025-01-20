@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
-    "target": "ES2017",
-    "module": "CommonJS",
+    "target": "ES6",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "strict": true,
+    "declaration": true,
+    "declarationDir": "./dist/esm",
     "esModuleInterop": true,
     "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
     "outDir": "./dist",
     "sourceMap": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "build/**/*"],
   "exclude": ["node_modules", "dist"]
 }
