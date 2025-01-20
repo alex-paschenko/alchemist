@@ -1,6 +1,6 @@
 {
   "name": "@lenka/alchemist",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "Microlibrary for multiple inheritance",
   "main": "dist/cjs/alchemize.js",
   "module": "dist/esm/alchemize.js",
@@ -38,5 +38,8 @@
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.3"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
