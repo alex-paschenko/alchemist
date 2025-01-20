@@ -1,6 +1,6 @@
 # Alchemist
 
-![npm version](https://img.shields.io/npm/v/@lenka/alchemist)
+![npm version](https://img.shields.io/npm/v/@lenka/alchemist?cacheSeconds=0)
 ![Coverage](https://img.shields.io/badge/Coverage-90.00%25-brightgreen)
 ![TypeScript Supported](https://img.shields.io/badge/TypeScript-%3E%3D4.0-blue)
 ![JavaScript Supported](https://img.shields.io/badge/JavaScript-ES6+-yellow)

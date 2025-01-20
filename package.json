@@ -1,6 +1,6 @@
 {
   "name": "@lenka/alchemist",
-  "version": "0.6.6",
+  "version": "0.6.7",
   "description": "Microlibrary for multiple inheritance",
   "main": "dist/cjs/alchemize.js",
   "module": "dist/esm/alchemize.js",
