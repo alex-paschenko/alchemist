@@ -12,16 +12,16 @@ Alchemist is a fast, lightweight, zero-dependency ts/js package designed to rest
 npm i @elenka/alchemist
 <h3>Using<h3>
 <h4>Typescript:</h4>
-import { alchemize } from '@elenka/alchemist';
+import { alchemize } from '@lenka/alchemist';
 
 alchemize(SomeClass, AnotherClass, OneMoreClass);
 
 <h4>As ES6 module:</h4>
-import { alchemize } from '@elenka/alchemist';
+import { alchemize } from '@lenka/alchemist';
 
 alchemize(SomeClass, , AnotherClass, OneMoreClass);
 
 <h4>As CommonJS module:</h4>
-const { alchemize } = require('@elenka/alchemist');
+const { alchemize } = require('@lenka/alchemist');
 
 alchemize(SomeClass, , AnotherClass, OneMoreClass);
