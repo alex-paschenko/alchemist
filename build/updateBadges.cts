@@ -34,7 +34,7 @@ function getCoveragePercentage(): string {
   }
 
   const percentage = (coveredStatements / totalStatements) * 100;
-  return `${percentage.toFixed(2)}%`;
+  return `${percentage.toFixed(2)}%25`;
 }
 
 // Function to update the README file with the coverage percentage
