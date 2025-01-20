@@ -9,7 +9,7 @@ Alchemist is a fast, lightweight, zero-dependency ts/js package designed to rest
 
 <table>
   <tr>
-    <td>
+    <td style="min-width: 350px;">
       <img src="docs/res/alchemist.png" alt="Alchemist Image" style="width: 350px; height: 350px; margin-right: 20px;"/>
     </td>
     <td>
