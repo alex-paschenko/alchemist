@@ -1,5 +1,5 @@
 {
-  "name": "@elenka/alchemist",
+  "name": "@lenka/alchemist",
   "version": "0.6.3",
   "description": "Microlibrary for multiple inheritance",
   "main": "dist/cjs/alchemize.js",
