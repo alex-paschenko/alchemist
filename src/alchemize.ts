@@ -1,6 +1,6 @@
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-// Type for merging instance properties and methods
+// Merge instance properties and methods
 type MergeInstance<TBaseClasses extends Constructor[]> = TBaseClasses extends [
   infer First extends Constructor,
   ...infer Rest extends Constructor[]
@@ -8,7 +8,7 @@ type MergeInstance<TBaseClasses extends Constructor[]> = TBaseClasses extends [
   ? InstanceType<First> & MergeInstance<Rest>
   : unknown;
 
-// Type for merging static properties and methods
+// Merge static properties and methods
 type MergeStatics<TBaseClasses extends Constructor[]> = TBaseClasses extends [
   infer First extends Constructor,
   ...infer Rest extends Constructor[]
@@ -16,45 +16,69 @@ type MergeStatics<TBaseClasses extends Constructor[]> = TBaseClasses extends [
   ? First & MergeStatics<Rest>
   : unknown;
 
-// Combined type that includes both instance and static properties
+// Combined type including instance and static properties
 type MergeClasses<TBaseClasses extends Constructor[]> = Constructor<
   MergeInstance<TBaseClasses>
 > &
   MergeStatics<TBaseClasses>;
 
+const instances = Symbol("instances");
+
+// Combine multiple classes into a single class
 function alchemize<TBaseClasses extends Constructor[]>(
   ...BaseClasses: TBaseClasses
 ): MergeClasses<TBaseClasses> {
-  // Create the combined class
+  // Correctly initialize instances of built-in classes
+
+  // Define the combined class
   class Combined {
     constructor(...args: any[]) {
-      // Initialize all base classes and assign their properties to `this`
-      BaseClasses.forEach((BaseClass) => {
-        Object.assign(this, new BaseClass(...args));
+      // Initialize each base class and assign properties
+      this[instances] = BaseClasses.map((BaseClass) => new BaseClass(...args));
+      return new Proxy(this, {
+        get(target, prop, receiver) {
+          for (const instance of target[instances]) {
+            if (prop in instance) {
+              const value = instance[prop];
+              return typeof value === 'function' ? value.bind(instance) : value;
+            }
+          }
+          return Reflect.get(target, prop, receiver);
+        },
+        set(target, prop, value, receiver) {
+          for (const instance of target[instances]) {
+            if (prop in instance) {
+              instance[prop] = value;
+              return true;
+            }
+          }
+          return Reflect.set(target, prop, value, receiver);
+        },
       });
     }
 
     // Support instanceof for all base classes
-    static [Symbol.hasInstance](instance: any) {
+    static [Symbol.hasInstance](instance: any): boolean {
       return BaseClasses.some((BaseClass) => instance instanceof BaseClass);
     }
+
+    private [instances]: any;
   }
 
-  // Start building the prototype chain from the most derived class
+  // Build the prototype chain
   let currentPrototype = Combined.prototype;
   [...BaseClasses].reverse().forEach((BaseClass) => {
-    // Ensure we don't create cycles
-    const baseProto = BaseClass.prototype;
-    if (!Object.prototype.isPrototypeOf.call(baseProto, currentPrototype)) {
-      Object.setPrototypeOf(currentPrototype, baseProto);
-      currentPrototype = baseProto;
+    const basePrototype = BaseClass.prototype;
+    if (!Object.prototype.isPrototypeOf.call(basePrototype, currentPrototype)) {
+      Object.setPrototypeOf(currentPrototype, basePrototype);
+      currentPrototype = basePrototype;
     }
   });
 
   // Copy static properties and methods
   BaseClasses.forEach((BaseClass) => {
     Reflect.ownKeys(BaseClass).forEach((key) => {
-      if (!["prototype", "name", "length"].includes(key as string)) {
+      if (!["prototype", "length", "name"].includes(key as string)) {
         Object.defineProperty(
           Combined,
           key,
@@ -62,17 +86,19 @@ function alchemize<TBaseClasses extends Constructor[]>(
         );
       }
     });
-  });
 
-  // Copy prototype methods and properties
-  BaseClasses.forEach((BaseClass) => {
     Reflect.ownKeys(BaseClass.prototype).forEach((key) => {
       if (key !== "constructor") {
-        Object.defineProperty(
-          Combined.prototype,
-          key,
-          Object.getOwnPropertyDescriptor(BaseClass.prototype, key)!
-        );
+        const descriptor = Object.getOwnPropertyDescriptor(BaseClass.prototype, key);
+        if (descriptor && (descriptor.get || descriptor.set)) {
+          Object.defineProperty(Combined.prototype, key, descriptor);
+        } else {
+          Object.defineProperty(
+            Combined.prototype,
+            key,
+            Object.getOwnPropertyDescriptor(BaseClass.prototype, key)!
+          );
+        }
       }
     });
   });

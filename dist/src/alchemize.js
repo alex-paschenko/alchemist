@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.alchemize = alchemize;
 const instances = Symbol("instances");
 // Combine multiple classes into a single class
 function alchemize(...BaseClasses) {
@@ -66,4 +63,5 @@ function alchemize(...BaseClasses) {
     });
     return Combined;
 }
+export { alchemize };
 //# sourceMappingURL=alchemize.js.map
