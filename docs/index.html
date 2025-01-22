@@ -1,31 +1,249 @@
-<div>
-  <h3>What’s included:</h3>
-  <ul style="list-style-image: url('docs/res/green-check-mark-16.png');">
-    <li>Building the prototype chain:
-      <ul style="list-style-image: none;">
-        <li>Object.setPrototypeOf is used to craft a proper prototype chain.</li>
-        <li>All prototype references from the base classes are part of the chain.</li>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alchemist</title>
+  <link rel="stylesheet" href="./res/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-light.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/javascript.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/typescript.min.js"></script>
+</head>
+<body>
+  <div class="flex-container">
+    <img style="width: 300px; height: 300px; margin:25px; object-fit: cover;" src="./res/alchemist.png" alt="Alchemist image" />
+    <div style="flex:1">
+      <h2>Alchemist</h2>
+      <p>A fast, lightweight, zero-dependency ts/js package designed to restore the rightful throne to the most powerful
+        and elegant aspect of OOP: multiple inheritance.</p>
+      <p>Simple, flexible, and ready to roll!</p>
+      <nav>
+        <h4>Table of content</h4>
+        <ul>
+          <li><a href="#motivation">Motivation</a></li>
+          <li><a href="#what-is-included">What’s included</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+
+  <section id="motivation">
+    <div class="spoiler">
+      <div class="spoiler-header">
+        <h3>Motivation</h3>
+        <div>
+          <button class="show-button">Show</button>
+          <button class="hide-button" style="display: none;">Hide</button>
+        </div>
+      </div>
+      <div class="spoiler-content">
+        <p>Multiple inheritance is the most powerful pattern in object-oriented programming (OOP).</p>
+        <p>Of course, like any other weapon, it can be dangerous. Sure, you could accidentally shoot yourself with it.</p>
+        <p>That’s why the creators of many modern programming languages decided, “Hey, let’s take away this dangerous toy
+          from the user, and just to be safe, let’s strap them into a straightjacket!”</p>
+        <p>Guys, that doesn’t work! Single inheritance — the one thing users (for now) still have — often leads to ugly
+          application architecture. It turns what could’ve been a reasonable representation of reality using classes
+          into the nightmare of a binge-drinking stranger.</p>
+        <p>&nbsp;</p>
+        <p>If I met the owner of an airline in a flophouse, and he offered me to create an app for his company, the
+          conversation might go like this:</p>
+        <p>&nbsp;</p>
+        <p><strong>Him:</strong> Hey, you seem like a smart person. How about writing an app for my airline?</p>
+        <p><strong>Me:</strong> Well, that’s an unexpected offer, but it sounds interesting. What kind of app do you need?</p>
+        <p><strong>Him:</strong> I want something better than what my competitors have. It should be simple, user-friendly,
+          and, of course, cool!</p>
+        <p>&nbsp;</p>
+        <p>In the morning, hungover, I remember this conversation and start brainstorming the architecture.</p>
+        <p>Here’s how we can describe the airplane crew for our app:</p>
+        <ul>
+          <li>
+            <strong>Captain (First Pilot)</strong>
+            <ul><li>
+              Duties: Scold passengers and turn on autopilot.<br/>
+              (You know, the serious stuff. Someone’s gotta do it!).
+            </li></ul>
+          </li>
+          <li>
+            <strong>Co-Pilot</strong>
+            <ul><li>
+              Skills: Play music and use GPS.<br>
+              (Why GPS? Well, at least it’s handy for quickly finding a pub in any city!)
+            </li></ul>
+          <li>
+            <strong>Flight Engineer</strong>
+            <ul><li>
+              Talents: Tell jokes and wake up the rest of the crew after landing.<br>
+              (Because old jokes won’t laugh at themselves, right?)
+            </li></ul>
+          </li>
+        </ul>
+        <p>Describing this with classes is easier than taking candy from a baby:</p>
+        <div class="code-block"><pre class="ts active"><code class="language-typescript">сlass Captain {
+  scoldPassengers() { return 'Landing means sit down and shut up!'; };
+  turnOnAutopilot() { return 'Does anyone know where the damn button is?'; };
+}
+
+class CoPilot {
+  playMusic() { return 'Oh, come on, my singing’s fine.'; };
+  useGPS() { return 'The GPS isn’t working: I left my phone somewhere.'; };
+}
+
+class FlightEngineer {
+  tellJokes() { return 'So, an Irishman walks into a pub…'; };
+  wakeUpCrew() { return 'First, someone needs to wake me up.'; };
+}       </code></pre></div>
+        <p>"Perfect!" says the company owner after looking at the result of our work.
+          "Just one small comment. You see, my airline isn’t exactly in the top ten
+          global leaders (by the way, will $5 be enough for your work?). So, not all
+          flights have three crew members. For some routes, I hire just one person
+          who can handle all the crew’s duties."</p>
+        <p>And that’s when we realize our app is heading for a plane crash! Implementing such a simple and
+          natural thing without multiple inheritance... damn, it’d be easier to explain
+          to my mom why I’m still single!</p>
+        <p>But we’re not here to talk about the problems. We’re here to talk about the solution.</p>
+        <p>Fortunately, neither our earnings nor our reputation are at risk: the Alchemist package brings simplicity
+          back to these simple things:</p>
+          <div class="code-block"><pre class="ts active"><code class="language-typescript">import { alchemist } from '@lenka/alchemist';
+
+const SuperHero = alchemist(Captain, CoPilot, FlightEngineer);
+
+const superman = new SuperHero();
+
+superman.scoldPassengers();
+superman.playMusic();
+superman.tellJokes();
+...
+          </code></pre></div>
+        <p>And that’s it!</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="what-is-included">
+    <div>
+      <h3>What’s included:</h3>
+      <ul style="list-style-image: url('docs/res/green-check-mark-16.png');">
+        <li>Building the prototype chain:
+          <ul style="list-style-image: none;">
+            <li>Object.setPrototypeOf is used to craft a proper prototype chain.</li>
+            <li>All prototype references from the base classes are part of the chain.</li>
+          </ul>
+        </li>
+        <li>Copying instance properties:
+          <ul style="list-style-image: none;">
+            <li>Inside the Result constructor, instances of all base classes are created, and their properties are assigned to the final object.</li>
+          </ul>
+        </li>
+        <li>Copying static properties:
+          <ul style="list-style-image: none;">
+            <li>All static properties and methods from the base classes are present in the Result class.</li>
+          </ul>
+        </li>
+        <li>instanceof support:
+          <ul style="list-style-image: none;">
+            <li>instanceof checks work seamlessly for any of the base classes.</li>
+          </ul>
+        </li>
+        <li>Compatibility with getters/setters:
+          <ul style="list-style-image: none;">
+            <li>The Alchemist carefully transfers all getters and setters from the original classes into the resulting class.</li>
+          </ul>
+        </li>
       </ul>
-    </li>
-    <li>Copying instance properties:
-      <ul style="list-style-image: none;">
-        <li>Inside the Result constructor, instances of all base classes are created, and their properties are assigned to the final object.</li>
-      </ul>
-    </li>
-    <li>Copying static properties:
-      <ul style="list-style-image: none;">
-        <li>All static properties and methods from the base classes are present in the Result class.</li>
-      </ul>
-    </li>
-    <li>instanceof support:
-      <ul style="list-style-image: none;">
-        <li>instanceof checks work seamlessly for any of the base classes.</li>
-      </ul>
-    </li>
-    <li>Compatibility with getters/setters:
-      <ul style="list-style-image: none;">
-        <li>The Alchemist carefully transfers all getters and setters from the original classes into the resulting class.</li>
-      </ul>
-    </li>
-  </ul>
-</div>
+    </div>
+  </section>
+<script>
+  // Initialize Highlight.js
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('pre code, .inline-code').forEach((block) => {
+      hljs.highlightElement(block);
+    });
+  });
+
+  // Global language switching for all blocks
+  document.querySelectorAll('.code-buttons button').forEach(button => {
+    button.addEventListener('click', () => {
+      const target = button.getAttribute('data-target');
+
+      // Update buttons globally
+      document.querySelectorAll('.code-buttons button').forEach(btn => {
+        if (btn.getAttribute('data-target') === target) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      // Update code blocks globally
+      document.querySelectorAll('.code-block').forEach(block => {
+        block.querySelectorAll('pre').forEach(pre => pre.classList.remove('active'));
+        block.querySelector(`pre.${target}`).classList.add('active');
+        hljs.highlightElement(block.querySelector(`pre.${target} code`));
+      });
+    });
+  });
+
+  // Select all spoilers
+  const spoilers = document.querySelectorAll('.spoiler');
+
+  spoilers.forEach(spoiler => {
+    const showButton = spoiler.querySelector('.show-button');
+    const hideButton = spoiler.querySelector('.hide-button');
+    const header = spoiler.querySelector('.spoiler-header');
+    const content = spoiler.querySelector('.spoiler-content');
+
+    content.style.display = 'none';
+
+    header.addEventListener('click', () => {
+      content.style.display = content.style.display === 'none' ? 'block' : 'none';
+      showButton.style.display = content.style.display === 'none' ? 'inline' : 'none';
+      hideButton.style.display = content.style.display === 'none' ? 'none' : 'inline';
+    });
+
+    // Show content
+    showButton.addEventListener('click', () => {
+      content.style.display = 'block';
+      showButton.style.display = 'none';
+      hideButton.style.display = 'inline';
+    });
+
+    // Hide content
+    hideButton.addEventListener('click', () => {
+      content.style.display = 'none';
+      showButton.style.display = 'inline';
+      hideButton.style.display = 'none';
+    });
+  });
+
+  const openSpoilerFromHash = () => {
+    const hash = window.location.hash;
+
+    if (hash) {
+      const targetSection = document.querySelector(hash);
+      if (targetSection) {
+        const spoilerContent = targetSection.querySelector('.spoiler-content');
+        const showButton = targetSection.querySelector('.show-button');
+        const hideButton = targetSection.querySelector('.hide-button');
+
+        spoilerContent.style.display = 'block';
+        showButton.style.display = 'none';
+        hideButton.style.display = 'inline';
+        targetSection.scrollIntoView({ behavior: 'smooth' }); // Smooth scrolling
+      }
+    }
+  };
+  // Open spoiler on hash change
+  window.addEventListener('hashchange', openSpoilerFromHash);
+  let currentHash = window.location.hash;
+
+  setInterval(() => {
+    if (currentHash !== window.location.hash) {
+      currentHash = window.location.hash;
+      openSpoilerFromHash();
+    }
+  }, 100);
+</script>
+
+</body>
+</html>
