@@ -1,6 +1,6 @@
 {
   "name": "@lenka/alchemist",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "description": "Microlibrary for multiple inheritance",
   "main": "dist/cjs/alchemize.js",
   "module": "dist/esm/alchemize.js",
@@ -27,8 +27,16 @@
   "keywords": [
     "mixin",
     "multiple inheritance",
+    "multiple-inheritance",
     "inheritance",
-    "merge classes"
+    "class",
+    "classes",
+    "merge classes",
+    "merge-classes",
+    "merge",
+    "klass",
+    "klasses",
+    "alchemist"
   ],
   "author": "Alexander Paschenko",
   "license": "LGPL-3.0-or-later",

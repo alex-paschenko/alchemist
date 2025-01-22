@@ -4,7 +4,6 @@ exports.alchemize = alchemize;
 const instances = Symbol("instances");
 // Combine multiple classes into a single class
 function alchemize(...BaseClasses) {
-    // Correctly initialize instances of built-in classes
     // Define the combined class
     class Combined {
         constructor(...args) {
@@ -49,7 +48,18 @@ function alchemize(...BaseClasses) {
     BaseClasses.forEach((BaseClass) => {
         Reflect.ownKeys(BaseClass).forEach((key) => {
             if (!["prototype", "length", "name"].includes(key)) {
-                Object.defineProperty(Combined, key, Object.getOwnPropertyDescriptor(BaseClass, key));
+                const descriptor = Object.getOwnPropertyDescriptor(BaseClass, key);
+                if (descriptor) {
+                    // Ensure static methods maintain the correct context of `this`.
+                    if (typeof descriptor.value === 'function') {
+                        const originalMethod = descriptor.value;
+                        descriptor.value = function (...args) {
+                            // Use `this` to dynamically reference the current class
+                            return originalMethod.apply(this, args);
+                        };
+                    }
+                    Object.defineProperty(Combined, key, descriptor);
+                }
             }
         });
         Reflect.ownKeys(BaseClass.prototype).forEach((key) => {

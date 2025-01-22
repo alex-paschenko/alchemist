@@ -28,8 +28,6 @@ const instances = Symbol("instances");
 function alchemize<TBaseClasses extends Constructor[]>(
   ...BaseClasses: TBaseClasses
 ): MergeClasses<TBaseClasses> {
-  // Correctly initialize instances of built-in classes
-
   // Define the combined class
   class Combined {
     constructor(...args: any[]) {
@@ -79,11 +77,18 @@ function alchemize<TBaseClasses extends Constructor[]>(
   BaseClasses.forEach((BaseClass) => {
     Reflect.ownKeys(BaseClass).forEach((key) => {
       if (!["prototype", "length", "name"].includes(key as string)) {
-        Object.defineProperty(
-          Combined,
-          key,
-          Object.getOwnPropertyDescriptor(BaseClass, key)!
-        );
+        const descriptor = Object.getOwnPropertyDescriptor(BaseClass, key);
+        if (descriptor) {
+          // Ensure static methods maintain the correct context of `this`.
+          if (typeof descriptor.value === 'function') {
+            const originalMethod = descriptor.value;
+            descriptor.value = function (...args: any[]) {
+              // Use `this` to dynamically reference the current class
+              return originalMethod.apply(this, args);
+            };
+          }
+          Object.defineProperty(Combined, key, descriptor);
+        }
       }
     });
 
