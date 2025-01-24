@@ -19,9 +19,11 @@ alchemize(SomeClass, AnotherClass, OneMoreClass);
 <h4>As ES6 module:</h4>
 import { alchemize } from '@lenka/alchemist';
 
-alchemize(SomeClass, , AnotherClass, OneMoreClass);
+alchemize(SomeClass, AnotherClass, OneMoreClass);
 
 <h4>As CommonJS module:</h4>
 const { alchemize } = require('@lenka/alchemist');
 
-alchemize(SomeClass, , AnotherClass, OneMoreClass);
+alchemize(SomeClass, AnotherClass, OneMoreClass);
+
+<h3>Documentation: <a href="https://alex-paschenko.github.io/alchemist">here</a></h3>

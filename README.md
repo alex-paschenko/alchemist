@@ -1,7 +1,7 @@
 # Alchemist
 
 ![npm version](https://img.shields.io/npm/v/@lenka/alchemist?cacheSeconds=0)
-![Coverage](https://img.shields.io/badge/Coverage-95.00%25-brightgreen)
+![Coverage](https://img.shields.io/badge/Coverage-97.41%25-brightgreen)
 ![TypeScript Supported](https://img.shields.io/badge/TypeScript-%3E%3D4.0-blue)
 ![JavaScript Supported](https://img.shields.io/badge/JavaScript-ES6+-yellow)
 
@@ -19,9 +19,11 @@ alchemize(SomeClass, AnotherClass, OneMoreClass);
 <h4>As ES6 module:</h4>
 import { alchemize } from '@lenka/alchemist';
 
-alchemize(SomeClass, , AnotherClass, OneMoreClass);
+alchemize(SomeClass, AnotherClass, OneMoreClass);
 
 <h4>As CommonJS module:</h4>
 const { alchemize } = require('@lenka/alchemist');
 
-alchemize(SomeClass, , AnotherClass, OneMoreClass);
+alchemize(SomeClass, AnotherClass, OneMoreClass);
+
+<h3>Documentation: <a href="https://alex-paschenko.github.io/alchemist">here</a></h3>

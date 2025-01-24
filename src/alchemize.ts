@@ -1,38 +1,24 @@
-type Constructor<T = {}> = new (...args: any[]) => T;
+import { recipeIdentity } from './constants';
+import { Constructor, MergeClasses, Recipe, RecipeWithIdentity } from './interfaces';
 
-// Merge instance properties and methods
-type MergeInstance<TBaseClasses extends Constructor[]> = TBaseClasses extends [
-  infer First extends Constructor,
-  ...infer Rest extends Constructor[]
-]
-  ? InstanceType<First> & MergeInstance<Rest>
-  : unknown;
-
-// Merge static properties and methods
-type MergeStatics<TBaseClasses extends Constructor[]> = TBaseClasses extends [
-  infer First extends Constructor,
-  ...infer Rest extends Constructor[]
-]
-  ? First & MergeStatics<Rest>
-  : unknown;
-
-// Combined type including instance and static properties
-type MergeClasses<TBaseClasses extends Constructor[]> = Constructor<
-  MergeInstance<TBaseClasses>
-> &
-  MergeStatics<TBaseClasses>;
-
-const instances = Symbol("instances");
+const instances = Symbol('instances');
 
 // Combine multiple classes into a single class
 function alchemize<TBaseClasses extends Constructor[]>(
-  ...BaseClasses: TBaseClasses
+  ...args: TBaseClasses
 ): MergeClasses<TBaseClasses> {
+  const recipe = (args[0] as unknown as RecipeWithIdentity)?.[recipeIdentity]
+    ? (args[0] as unknown as RecipeWithIdentity)
+    : null;
+
+  const BaseClasses = (recipe ? (args.shift() || []) : args) as TBaseClasses;
+
   // Define the combined class
   class Combined {
     constructor(...args: any[]) {
       // Initialize each base class and assign properties
       this[instances] = BaseClasses.map((BaseClass) => new BaseClass(...args));
+
       return new Proxy(this, {
         get(target, prop, receiver) {
           for (const instance of target[instances]) {
@@ -61,6 +47,8 @@ function alchemize<TBaseClasses extends Constructor[]>(
     }
 
     private [instances]: any;
+
+    private [recipeIdentity]: Recipe = recipe || {};
   }
 
   // Build the prototype chain

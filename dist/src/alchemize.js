@@ -1,9 +1,17 @@
-const instances = Symbol("instances");
+import { recipeIdentity } from './constants';
+const instances = Symbol('instances');
 // Combine multiple classes into a single class
-function alchemize(...BaseClasses) {
+function alchemize(...args) {
+    var _a;
+    var _b;
+    const recipe = ((_a = args[0]) === null || _a === void 0 ? void 0 : _a[recipeIdentity])
+        ? args[0]
+        : null;
+    const BaseClasses = (recipe ? (args.shift() || []) : args);
     // Define the combined class
     class Combined {
         constructor(...args) {
+            this[_b] = recipe || {};
             // Initialize each base class and assign properties
             this[instances] = BaseClasses.map((BaseClass) => new BaseClass(...args));
             return new Proxy(this, {
@@ -32,6 +40,7 @@ function alchemize(...BaseClasses) {
             return BaseClasses.some((BaseClass) => instance instanceof BaseClass);
         }
     }
+    _b = recipeIdentity;
     // Build the prototype chain
     let currentPrototype = Combined.prototype;
     [...BaseClasses].reverse().forEach((BaseClass) => {

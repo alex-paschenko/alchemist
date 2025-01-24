@@ -1,6 +1,6 @@
 import { alchemize } from '../src/alchemize';
 
-describe('mixWithFullSupport - static properties and methods', () => {
+describe('alchemize - static properties and methods', () => {
   class A {
     static staticValueA: string = 'defaultA';
 
