@@ -1,4 +1,4 @@
-import { alchemize } from '../src/alchemize';
+import { alchemize } from '../../src/alchemize';
 
 describe('alchemize - symbol properties and methods', () => {
   const symbolA = Symbol('symbolA');

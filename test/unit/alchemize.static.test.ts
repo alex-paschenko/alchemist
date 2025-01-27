@@ -1,4 +1,4 @@
-import { alchemize } from '../src/alchemize';
+import { alchemize } from '../../src/alchemize';
 
 describe('alchemize - static properties and methods', () => {
   class A {

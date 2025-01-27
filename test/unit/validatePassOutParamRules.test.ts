@@ -1,6 +1,6 @@
-import { AlchemistError } from '../src/errors';
-import { PassOutParamRule } from '../src/interfaces';
-import { validatePassOutParamRules } from '../src/passOutParamRules';
+import { AlchemistError } from '../../src/errors';
+import { PassOutParamRule } from '../../src/interfaces';
+import { validatePassOutParamRules } from '../../src/passOutParams';
 
 describe('validatePassOutParamRules', () => {
   test('should pass with valid rules (no errors)', () => {

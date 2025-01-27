@@ -1,12 +1,12 @@
-import { recipe } from '../src/recipe';
-import { alchemize } from '../src/alchemize';
-import { AlchemistError } from '../src/errors';
-import { validatePassOutParamRules } from '../src/passOutParamRules';
-import { Constructor, PassOutParamRule, recipeKeys } from '../src/interfaces';
-import { recipeIdentity } from '../src/constants';
+import { recipe } from '../../src/recipe';
+import { alchemize } from '../../src/alchemize';
+import { AlchemistError } from '../../src/errors';
+import { validatePassOutParamRules } from '../../src/passOutParams';
+import { Constructor, PassOutParamRule, recipeKeys } from '../../src/interfaces';
+import { recipeIdentity } from '../../src/constants';
 
-jest.mock('../src/alchemize'); // Mock alchemize
-jest.mock('../src/passOutParamRules');
+jest.mock('../../src/alchemize'); // Mock alchemize
+jest.mock('../../src/passOutParams');
 
 const mockAlchemize = alchemize as jest.Mock;
 const mockValidatePassOutParamRules = validatePassOutParamRules as jest.Mock;
@@ -25,6 +25,11 @@ describe('recipe', () => {
   it('should throw AlchemistError with code E002 if params contain invalid keys', () => {
     const invalidParams = { invalidKey: 'value' };
     expect(() => recipe(invalidParams as any)).toThrow(new AlchemistError('E002', 'invalidKey'));
+  });
+
+  it('should accept instanceOfSupport in params', () => {
+    const params = { instanceOfSupport: true };
+    expect(() => recipe(params)).not.toThrow();
   });
 
   it('should call the appropriate validator for specific keys', () => {

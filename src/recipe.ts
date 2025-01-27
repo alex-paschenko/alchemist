@@ -2,7 +2,7 @@ import { alchemize } from './alchemize';
 import { recipeIdentity } from './constants';
 import { AlchemistError } from './errors';
 import { Constructor, Recipe, recipeKeys } from './interfaces';
-import { validatePassOutParamRules } from './passOutParamRules';
+import { validatePassOutParamRules } from './passOutParams';
 
 type validKeys = typeof recipeKeys[number];
 type alchemizeParam = Parameters<typeof alchemize>[0];

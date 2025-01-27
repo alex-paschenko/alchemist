@@ -4,13 +4,14 @@ export type PassOutParamRule =  number | '...';
 
 export interface Recipe {
   passOutParamRules?: PassOutParamRule[];
+  instanceOfSupport?: boolean;
 };
 
 export interface RecipeWithIdentity extends Recipe {
   [recipeIdentity]: boolean;
 }
 
-export const recipeKeys = ['passOutParamRules'] as const;
+export const recipeKeys = ['passOutParamRules', 'instanceOfSupport'] as const;
 
 export type Constructor<T = {}> = new (...args: any[]) => T;
 

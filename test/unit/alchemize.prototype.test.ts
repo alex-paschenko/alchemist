@@ -1,4 +1,4 @@
-import { alchemize } from '../src/alchemize';
+import { alchemize } from '../../src/alchemize';
 
 describe('alchemize - prototype chain inheritance', () => {
   class A {
@@ -93,14 +93,5 @@ describe('alchemize - prototype chain inheritance', () => {
     expect(prototypeChain.some((proto: any) => proto.hasOwnProperty('parentMethod'))).toBe(true);
     expect(prototypeChain.some((proto: any) => proto.hasOwnProperty('childMethod'))).toBe(true);
     expect(prototypeChain.some((proto: any) => proto.hasOwnProperty('grandChildMethod'))).toBe(true);
-  });
-
-  it('should support instanceof for all base classes', () => {
-    const instance = new CombinedClass();
-
-    // Verify instanceof checks for all base classes
-    expect(instance instanceof A).toBe(true);
-    expect(instance instanceof B).toBe(true);
-    expect(instance instanceof C).toBe(true);
   });
 });

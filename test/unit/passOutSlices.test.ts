@@ -1,5 +1,5 @@
-import { passOutSlices } from '../src/passOutParamRules';
-import { AlchemistError } from '../src/errors';
+import { passOutSlices } from '../../src/passOutParams';
+import { AlchemistError } from '../../src/errors';
 
 describe('passOutSlices', () => {
   it('should return numOfClasses arrays with inputArray when passOutParamRules is missing', () => {
@@ -33,10 +33,23 @@ describe('passOutSlices', () => {
     expect(result).toEqual([[1, 2], [], [3, 4]]);
   });
 
-  it('should throw E100 when a rule exceeds the size of the input array', () => {
+  it('should throw E100 when a positive number rule exceeds the size of the input array', () => {
     const inputArray = [1, 2];
     const numOfClasses = 2;
     const passOutParamRules = [3];
+    expect(() => passOutSlices(inputArray, numOfClasses, passOutParamRules)).toThrow(AlchemistError);
+    try {
+      passOutSlices(inputArray, numOfClasses, passOutParamRules);
+    } catch (e) {
+      expect(e).toBeInstanceOf(AlchemistError);
+      expect((e as AlchemistError).code).toBe('E100');
+    }
+  });
+
+  it('should throw E100 when a negative number rule exceeds the size of the input array', () => {
+    const inputArray = [1, 2];
+    const numOfClasses = 2;
+    const passOutParamRules = [-3];
     expect(() => passOutSlices(inputArray, numOfClasses, passOutParamRules)).toThrow(AlchemistError);
     try {
       passOutSlices(inputArray, numOfClasses, passOutParamRules);
