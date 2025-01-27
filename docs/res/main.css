@@ -119,7 +119,7 @@ pre.active {
   cursor: pointer;
 }
 
-.spoiler-header button {
+.show-button, .hide-button {
   background: none;
   border: none;
   color: #007bff;
@@ -128,7 +128,7 @@ pre.active {
   font-size: 85%;
 }
 
-.spoiler-header button:hover {
+.show-button:hover, .hide-button:hover {
   color: #0056b3;
 }
 

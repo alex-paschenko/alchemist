@@ -33,8 +33,8 @@
       <div class="spoiler-header">
         <h3>Motivation</h3>
         <div>
-          <button class="show-button">Show</button>
-          <button class="hide-button" style="display: none;">Hide</button>
+          <span class="show-button">Show</span>
+          <span class="hide-button" style="display: none;">Hide</span>
         </div>
       </div>
       <div class="spoiler-content">
@@ -80,7 +80,7 @@
         </ul>
         <p>Describing this with classes is easier than taking candy from a baby:</p>
         <div class="code-block"><pre class="ts active"><code class="language-typescript">сlass Captain {
-  scoldPassengers() { return 'Boarding means sit down and shut up!'; };
+  scoldPassengers() { return 'This? This is me being polite. Wait till I actually start!'; };
   turnOnAutopilot() { return 'Does anyone know where the damn button is?'; };
 }
 
@@ -200,20 +200,6 @@ superman.tellJokes();
       showButton.style.display = content.style.display === 'none' ? 'inline' : 'none';
       hideButton.style.display = content.style.display === 'none' ? 'none' : 'inline';
     });
-
-    // Show content
-    showButton.addEventListener('click', () => {
-      content.style.display = 'block';
-      showButton.style.display = 'none';
-      hideButton.style.display = 'inline';
-    });
-
-    // Hide content
-    hideButton.addEventListener('click', () => {
-      content.style.display = 'none';
-      showButton.style.display = 'inline';
-      hideButton.style.display = 'none';
-    });
   });
 
   const openSpoilerFromHash = () => {
@@ -233,7 +219,7 @@ superman.tellJokes();
       }
     }
   };
-  
+
   // Open spoiler on hash change
   window.addEventListener('hashchange', openSpoilerFromHash);
   let currentHash = window.location.hash;
