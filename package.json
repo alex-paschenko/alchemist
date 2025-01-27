@@ -2,14 +2,14 @@
   "name": "@lenka/alchemist",
   "version": "0.7.1",
   "description": "Microlibrary for multiple inheritance",
-  "main": "dist/cjs/alchemize.js",
-  "module": "dist/esm/alchemize.js",
-  "types": "dist/alchemize.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/esm/index.d.ts",
   "type": "module",
   "exports": {
     ".": {
-      "import": "./dist/esm/alchemize.js",
-      "require": "./dist/cjs/alchemize.js"
+      "import": "./dist/esm/index.js",
+      "require": "./dist/cjs/index.js"
     }
   },
   "files": [

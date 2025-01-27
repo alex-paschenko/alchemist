@@ -5,9 +5,9 @@ const alchemize_1 = require("./alchemize");
 const constants_1 = require("./constants");
 const errors_1 = require("./errors");
 const interfaces_1 = require("./interfaces");
-const passOutParamRules_1 = require("./passOutParamRules");
+const passOutParams_1 = require("./passOutParams");
 const validator = {
-    passOutParamRules: passOutParamRules_1.validatePassOutParamRules,
+    passOutParamRules: passOutParams_1.validatePassOutParamRules,
 };
 function recipe(params) {
     if (params === null || typeof params !== 'object') {

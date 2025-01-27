@@ -2,7 +2,7 @@ import { alchemize } from './alchemize';
 import { recipeIdentity } from './constants';
 import { AlchemistError } from './errors';
 import { recipeKeys } from './interfaces';
-import { validatePassOutParamRules } from './passOutParamRules';
+import { validatePassOutParamRules } from './passOutParams';
 const validator = {
     passOutParamRules: validatePassOutParamRules,
 };

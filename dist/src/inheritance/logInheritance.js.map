@@ -1,0 +1,1 @@
+{"version":3,"file":"logInheritance.js","sourceRoot":"","sources":["../../../src/inheritance/logInheritance.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,eAAe,EAAE,MAAM,mBAAmB,CAAC;AAEpD,MAAM,UAAU,cAAc,CAAC,QAAqB,EAAE,QAAgB,SAAS;IAC7E,MAAM,KAAK,GAAG,eAAe,CAAC,QAAQ,CAAC,CAAC;IACxC,OAAO,CAAC,GAAG,CAAC,IAAI,KAAK,MAAM,KAAK,CAAC,IAAI,CAAC,MAAM,CAAC,EAAE,CAAC,CAAC;AACnD,CAAC;AAAA,CAAC"}

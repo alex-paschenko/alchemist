@@ -1,25 +1,45 @@
-import { recipeIdentity } from './constants';
-const instances = Symbol('instances');
+import { checkInheritance, instances, prototypes, recipeIdentity } from './constants';
+import { AlchemistError } from './errors';
+import { addInstanceOfSupport } from './inheritance/addInstanceOfSupport';
+import { passOutSlices } from './passOutParams';
 // Combine multiple classes into a single class
 function alchemize(...args) {
     var _a;
     var _b;
-    const recipe = ((_a = args[0]) === null || _a === void 0 ? void 0 : _a[recipeIdentity])
+    const firstArgIsRecipe = (_a = args[0]) === null || _a === void 0 ? void 0 : _a[recipeIdentity];
+    const recipe = firstArgIsRecipe
         ? args[0]
-        : null;
-    const BaseClasses = (recipe ? (args.shift() || []) : args);
+        : {};
+    const BaseClasses = (firstArgIsRecipe ? (args.slice(1) || []) : args);
+    if (BaseClasses.length < 2) {
+        throw new AlchemistError('E050');
+    }
+    for (const [index, Class] of BaseClasses.entries()) {
+        if (!(typeof Class === 'function' &&
+            /^class\s/.test(Function.prototype.toString.call(Class)))) {
+            throw new AlchemistError('E051', index);
+        }
+    }
+    addInstanceOfSupport(BaseClasses, recipe.instanceOfSupport);
     // Define the combined class
     class Combined {
         constructor(...args) {
-            this[_b] = recipe || {};
-            // Initialize each base class and assign properties
-            this[instances] = BaseClasses.map((BaseClass) => new BaseClass(...args));
+            this[_b] = BaseClasses;
+            const splittedArgs = passOutSlices(args, BaseClasses.length, recipe.passOutParamRules);
+            this[instances] = [];
+            for (const Class of BaseClasses) {
+                const instance = new Class(...splittedArgs.shift());
+                this[instances].push(instance);
+            }
             return new Proxy(this, {
                 get(target, prop, receiver) {
                     for (const instance of target[instances]) {
                         if (prop in instance) {
                             const value = instance[prop];
-                            return typeof value === 'function' ? value.bind(instance) : value;
+                            if (typeof value === 'function') {
+                                return (...args) => Reflect.apply(value, instance, args);
+                            }
+                            return value;
                         }
                     }
                     return Reflect.get(target, prop, receiver);
@@ -35,36 +55,39 @@ function alchemize(...args) {
                 },
             });
         }
-        // Support instanceof for all base classes
-        static [Symbol.hasInstance](instance) {
-            return BaseClasses.some((BaseClass) => instance instanceof BaseClass);
+        [checkInheritance](klass) {
+            for (const proto of this[prototypes]) {
+                let currentClass = proto;
+                while (typeof currentClass === 'function') {
+                    if (currentClass === klass) {
+                        return true;
+                    }
+                    currentClass = Object.getPrototypeOf(currentClass);
+                }
+            }
+            return false;
         }
+        ;
     }
-    _b = recipeIdentity;
-    // Build the prototype chain
-    let currentPrototype = Combined.prototype;
-    [...BaseClasses].reverse().forEach((BaseClass) => {
-        const basePrototype = BaseClass.prototype;
-        if (!Object.prototype.isPrototypeOf.call(basePrototype, currentPrototype)) {
-            Object.setPrototypeOf(currentPrototype, basePrototype);
-            currentPrototype = basePrototype;
-        }
-    });
+    _b = prototypes;
     // Copy static properties and methods
     BaseClasses.forEach((BaseClass) => {
         Reflect.ownKeys(BaseClass).forEach((key) => {
             if (!["prototype", "length", "name"].includes(key)) {
                 const descriptor = Object.getOwnPropertyDescriptor(BaseClass, key);
                 if (descriptor) {
-                    // Ensure static methods maintain the correct context of `this`.
-                    if (typeof descriptor.value === 'function') {
-                        const originalMethod = descriptor.value;
-                        descriptor.value = function (...args) {
-                            // Use `this` to dynamically reference the current class
-                            return originalMethod.apply(this, args);
-                        };
+                    const existingDescriptor = Object.getOwnPropertyDescriptor(Combined, key);
+                    if (!existingDescriptor || existingDescriptor.configurable) {
+                        // Ensure static methods maintain the correct context of `this`.
+                        if (typeof descriptor.value === 'function') {
+                            const originalMethod = descriptor.value;
+                            descriptor.value = function (...args) {
+                                // Use `this` to dynamically reference the current class
+                                return originalMethod.apply(this, args);
+                            };
+                        }
+                        Object.defineProperty(Combined, key, descriptor);
                     }
-                    Object.defineProperty(Combined, key, descriptor);
                 }
             }
         });
