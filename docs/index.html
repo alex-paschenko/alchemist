@@ -21,12 +21,62 @@
       <nav>
         <h4>Table of content</h4>
         <ul>
+          <li><a href="#what-is-included">What’s included and what's not included</a></li>
           <li><a href="#motivation">Motivation</a></li>
-          <li><a href="#what-is-included">What’s included</a></li>
+          <li><a href="#simple-example">Simple example</a></li>
+          <li><a href="#recipes">Recipes</a></li>
         </ul>
       </nav>
     </div>
   </div>
+
+  <section id="what-is-included">
+    <div>
+      <h3>What’s included:</h3>
+      <ul style="list-style-image: url('res/green-check-mark-16.png');">
+        <li>Full built-in classes support:
+          <ul style="list-style-image: none;">
+            <li>The proper functioning is guaranteed not only for custom classes but also for <strong>all</strong> built-in JavaScript
+              classes and the classes that extend them (including those with internal slots - like as
+              <span class="inline-code language-javascript">Date</span>,
+              <span class="inline-code language-javascript">TypedArray</span>,
+              <span class="inline-code language-javascript">Map</span> etc.).</li>
+          </ul>
+        </li>
+        <li>Copying instance methods and properties:
+          <ul style="list-style-image: none;">
+            <li>Inside the Result constructor, instances of all base classes are created, and their properties are assigned to the final object.</li>
+          </ul>
+        </li>
+        <li>Copying static methods and properties:
+          <ul style="list-style-image: none;">
+            <li>All static properties and methods from the base classes are present in the Result class.</li>
+          </ul>
+        </li>
+        <li>instanceof support:
+          <ul style="list-style-image: none;">
+            <li>If you need <span class="inline-code language-javascript">instanceof</span> support, you can enable it
+              (except for built-in JavaScript classes like <span class="inline-code language-javascript">Map</span>,
+              <span class="inline-code language-javascript">Array</span>, <span class="inline-code language-javascript">Promise</span>,
+              etc. Even alchemy can't help here!).</li>
+          </ul>
+        </li>
+        <li>Compatibility with getters/setters:
+          <ul style="list-style-image: none;">
+            <li>The Alchemist carefully transfers all getters and setters from the original classes into the resulting class.</li>
+          </ul>
+        </li>
+      </ul>
+      <h3>What’s not included yet:</h3>
+      <ul style="list-style-image: url('res/red-cross-16.png');">
+        <li>Support for decorators and other metadata:
+          <ul style="list-style-image: none;">
+            <li>Right now, this functionality works partially, but stable and full support isn't guaranteed.</li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </section>
 
   <section id="motivation">
     <div class="spoiler">
@@ -104,7 +154,29 @@ class FlightEngineer {
         <p>But we’re not here to talk about the problems. We’re here to talk about the solution.</p>
         <p>Fortunately, neither our earnings nor our reputation are at risk: the Alchemist package brings simplicity
           back to these simple things:</p>
-          <div class="code-block"><pre class="ts active"><code class="language-typescript">import { alchemist } from '@lenka/alchemist';
+      </div>
+    </div>
+  </section>
+
+  <section id="simple-example">
+    <div>
+      <h3>Simple example</h3>
+      <div class="code-block"><pre class="ts active"><code class="language-typescript">import { @lenka/alchemist } from '@lenka/alchemist';
+
+сlass Captain {
+  scoldPassengers() { return 'This? This is me being polite. Wait till I actually start!'; };
+  turnOnAutopilot() { return 'Does anyone know where the damn button is?'; };
+}
+
+class CoPilot {
+  playMusic() { return 'Oh, come on, my singing’s fine.'; };
+  useGPS() { return 'The GPS isn’t working: I left my phone somewhere.'; };
+}
+
+class FlightEngineer {
+  tellJokes() { return 'So, an Irishman walks into a pub…'; };
+  wakeUpCrew() { return 'First, someone needs to wake me up.'; };
+}
 
 const SuperHero = alchemist(Captain, CoPilot, FlightEngineer);
 
@@ -113,46 +185,283 @@ const superman = new SuperHero();
 superman.scoldPassengers();
 superman.playMusic();
 superman.tellJokes();
-...
-          </code></pre></div>
-        <p>And that’s it!</p>
+...</code></pre></div>
+      <p>And that’s it!</p>
+      <p>So far, nothing too complicated, right?</p>
+      <p>But there’s still something unclear.</p>
+      <p><span class="inline-code language-javascript">alchemize()</span> is supposed to combine several
+        classes into one. But <span class="bold-italic">how</span> is it supposed to do that?</p>
+      <p>For example, the original classes take some parameters in their constructors:</p>
+      <div class="code-block">
+        <div class="code-buttons">
+          <button class="active" data-target="ts">TS</button>
+          <button data-target="js">JS</button>
+        </div>
+        <pre class="ts active"><code class="language-typescript">class Volume {
+  constructor(private length: number, private width: number, private height: number) {}
+
+  calculateVolume(): number {
+    return this.length * this.width * this.height;
+  }
+}
+
+class Person {
+  constructor(private firstName: string, private lastName: string) {}
+
+  get fullName(): string {
+    return `${this.firstName} ${this.lastName}`;
+  }
+}</code></pre>
+        <pre class="js"><code class="language-javascript">class Volume {
+  #length;
+  #width;
+  #height;
+
+  constructor(length, width, height) {
+    this.#length = length;
+    this.#width = width;
+    this.#height = height;
+  }
+
+  calculateVolume() {
+    return this.#length * this.#width * this.#height;
+  }
+}
+
+class Person {
+  #firstName;
+  #lastName;
+  constructor(firstName, lastName) {
+    this.#firstName = firstName;
+    this.#lastName = lastName;
+  }
+
+  get fullName() {
+    return `${this.#firstName} ${this.#lastName}`;
+  }
+}</code></pre>
       </div>
+      <p>Obviously, our combined class should also take all those parameters:</p>
+      <div class="code-block">
+        <div class="code-buttons">
+          <button class="active" data-target="ts">TS</button>
+          <button data-target="js">JS</button>
+        </div>
+        <pre class="ts active"><code class="language-typescript">const VolumeOfPerson = alchemize(Volume, Person);
+
+const instance = new VolumeOfPerson(25, 18, 38, &apos;John&apos;, &apos;Dow&apos;);</code></pre>
+        <pre class="js"><code class="language-javascript">const VolumeOfPerson = alchemize(Volume, Person);
+
+const instance = new VolumeOfPerson(25, 18, 38, &apos;John&apos;, &apos;Dow&apos;);</code></pre>
+      </div>
+      <p>But how will it know what to do with them?</p>
+      <p>So, what do we usually do in plain old JavaScript when working with single inheritance?
+        In the constructor of the derived class, we call the constructor of the base class (using
+        <span class="inline-code language-javascript">super(...)</span>) and pass it some of the arguments
+        — the ones it needs for its initialization.</p>
+      <p><span class="inline-code language-javascript">alchemize(...)</span> works in a pretty similar way.
+        By default, when you create an instance (using
+        <span class="inline-code language-javascript">new Combined(...)</span>), it initializes all the input classes
+        and passes all the received parameters to each constructor.</p>
+      <p>Obviously, this isn’t always the correct behavior.</p>
+      <p>This is where recipes come to the rescue, helping us solve this and other challenges.
+        Let’s dive right into them!</p>
     </div>
   </section>
 
-  <section id="what-is-included">
+  <section id="recipes">
     <div>
-      <h3>What’s included:</h3>
-      <ul style="list-style-image: url('docs/res/green-check-mark-16.png');">
-        <li>Building the prototype chain:
-          <ul style="list-style-image: none;">
-            <li>Object.setPrototypeOf is used to craft a proper prototype chain.</li>
-            <li>All prototype references from the base classes are part of the chain.</li>
+      <h3>Recipes</h3>
+      <div class="flex-container">
+        <div style="max-width: 350px;">
+          <img style="width: 300px; height: 300px; margin:25px; object-fit: cover;" src="./res/recipes.png" alt="Recipe image" />
+          <p>To create something extraordinary (a panacea, the sorcerer’s stone, or grandma’s apple pie), every
+            alchemist needs a recipe.</p>
+        </div>
+        <div style="flex:1">
+          <p>In the <span class="inline-code language-javascript">Alchemist</span> package,
+            <span class="inline-code language-javascript">recipe(...)</span> is a function that takes a set of instructions
+            and returns an object with a configured <span class="inline-code language-javascript">alchemize(...)</span>
+            function:</p>
+            <div class="code-block">
+              <div class="code-buttons">
+                <button class="active" data-target="ts">TS</button>
+                <button data-target="js">JS</button>
+              </div>
+              <pre class="ts active"><code class="language-typescript">import { recipe, Recipe } from '@lenka/alchemist';
+
+// For your convenience, Alchemize offers a handy helper
+// type called Recipe.
+const prescription: Recipe = { instanceOfSupport: true };
+
+class SomeClassA {};
+class SomeClassB {};
+
+// You can either chain the call like this...
+const CombinedClass =
+  recipe(prescription).alchemize(SomeClassA, SomeClassB);
+
+// ...or you can save the result into a variable if you plan
+// to reuse the same settings in multiple places and call
+// alchemize later:
+const tunedAlchemize = recipe(prescription).alchemize;
+
+const TheSameCombinedClass =
+  tunedAlchemize(SomeClassA, SomeClassB);
+
+const instance = new CombinedClass(...);</code></pre>
+              <pre class="js"><code class="language-javascript">import { recipe } from '@lenka/alchemist';
+
+const prescription = { instanceOfSupport: true };
+
+class SomeClassA {};
+class SomeClassB {};
+
+// You can either chain the call like this...
+const CombinedClass =
+  recipe(prescription).alchemize(SomeClassA, SomeClassB);
+
+// ...or you can save the result into a variable if you plan
+// to reuse the same settings in multiple places and call
+// alchemize later:
+const tunedAlchemize = recipe(prescription).alchemize;
+
+const TheSameCombinedClass =
+  tunedAlchemize(SomeClassA, SomeClassB);
+
+const instance = new CombinedClass(...);</code></pre>
+            </div>
+        </div>
+      </div>
+      <p><span class="inline-code language-typescript">recipe(...)</span> takes a single parameter –
+        an object with two optional keys:</p>
+      <ul>
+        <li><span class="inline-code language-typescript">instanceOfSupport: boolean</span>
+          <span class="notes">(default is <span class="inline-code language-typescript">false</span>)</span> –
+          set this to true if you need instanceof support for instances of classes created with
+          <span class="inline-code language-typescript">alchemize()</span>.
+          <ul class="notes">
+            <li>Enabling <span class="inline-code language-typescript">instanceOfSupport</span> will slightly
+              slow down the execution of <span class="inline-code language-typescript">alchemize()</span>.
+              However, it does not affect the runtime performance of the instance created from the class.
+            </li>
+            <li>
+              <img src="res/notes-70x78.png" style="float: left; margin: 0 10px 0 0; width: 20px;">
+              Unfortunately, even with <span class="inline-code language-typescript">instanceOfSupport</span>
+              enabled, the <span class="inline-code language-typescript">instanceof</span> operator will still return
+              <span class="inline-code language-typescript">false</span> for built-in JavaScript classes.
+            </li>
           </ul>
+
+          <div>
+
+          </div>
         </li>
-        <li>Copying instance properties:
-          <ul style="list-style-image: none;">
-            <li>Inside the Result constructor, instances of all base classes are created, and their properties are assigned to the final object.</li>
+        <li style="clear: both;">
+          <span class="inline-code language-typescript">passOutParamRules</span> is an array that defines how parameters
+            will be distributed across the constructors of the input classes when an instance of the alchemized class is
+            created.
+          <ul>
+            <li>
+              If this parameter is missing or an empty array, each input class's constructor will receive all the
+              arguments passed during instantiation.
+            </li>
+            <li>
+              <p>If <span class="inline-code language-typescript">passOutParamRules</span> is not an empty array, its
+                number of elements must exactly match the number of classes passed as parameters to
+                <span class="inline-code language-typescript">alchemize()</span>: the n-th element of
+                <span class="inline-code language-typescript">passOutParamRules</span> determines which arguments will
+                be passed to the constructor of class provided as the n-th parameter to the
+                <span class="inline-code language-typescript">alchemize()</span> function.</p>
+              <p>The elements of <span class="inline-code language-typescript">passOutParamRules</span> can be positive
+                or negative integers, 0, and at most one string <span class="inline-code language-typescript">'...'
+                </span>(it’s easy to remember: both in meaning and in appearance, it matches the JavaScript rest operator).</p>
+              <p>All of this might sound intimidating, but in reality,
+                <span class="inline-code language-typescript">passOutParamRules</span> just describes parameter
+                splitting in the simplest and most straightforward way. Let's break it down step by step to see what's
+                happening, where, when, and how. So:</p>
+              <ol>
+                <li>
+                  <p>If needed, we pass an object with instructions (including an array of rules) to the
+                    <span class="inline-code language-typescript">recipe()</span> function.</p>
+                  <p>The <span class="inline-code language-typescript">recipe()</span> returns an object with a
+                    customized <span class="inline-code language-typescript">alchemize()</span> function that now
+                    "knows" about these rules:</p>
+                  <div class="code-block">
+                    <div class="code-buttons">
+                      <button class="active" data-target="ts">TS</button>
+                      <button data-target="js">JS</button>
+                    </div>
+                    <pre class="ts active"><code class="language-typescript">const passOutParamRules = [2, 0, '...', -1];
+const instanceOfSupport = true;
+
+const customizedAlchemize = recipe({
+  passOutParamRules,
+  instanceOfSupport,
+}).alchemize;</code></pre>
+                    <pre class="js"><code class="language-javascript">const passOutParamRules = [2, 0, '...', -1];
+const instanceOfSupport = true;
+
+const customizedAlchemize = recipe({
+  passOutParamRules,
+  instanceOfSupport,
+}).alchemize;</code></pre>
+                  </div>
+                </li>
+                <li>
+                  <p>Later, when we need it, we call this customized <span class="inline-code language-typescript">alchemize()</span>
+                    to create a combined class:</p>
+                  <div class="code-block">
+                    <div class="code-buttons">
+                      <button class="active" data-target="ts">TS</button>
+                      <button data-target="js">JS</button>
+                    </div>
+                    <pre class="ts active"><code class="language-typescript">const passOutParamRules = [2, 0, '...', -1];
+const instanceOfSupport = true;
+
+class A {
+  constructor(private a: number, private b: number) {}
+  sum(): number { return this.a + this.b}
+}
+
+class B {
+  whereAreYou(): string { return "I'm here!"; }
+}
+
+class C {
+  constructor(...args: number[]) {
+    this.args = args;
+  }
+  max(): number { return Math.max(...this.args); }
+  private args: number[];
+}
+
+class D {
+  constructor(a: number) {
+    constructor(private a: number) {}
+    plus(b: number): number { return this.a + b }
+  }
+}
+
+const Combined = customizedAlchemize(A, B, C, D);</code></pre>
+                    <pre class="js"><code class="language-javascript">
+                    </code></pre>
+                  </div>
+                  <p>At this point, <span class="inline-code language-typescript">alchemize</span>
+                    checks that <span class="inline-code language-typescript">passOutParamRules</span> is either an
+                    empty array or its length matches the number of classes passed to
+                    <span class="inline-code language-typescript">alchemize</span>. If there’s a mismatch, it throws
+                    an error.</p>
+                </li>
+              </ol>
+            </li>
           </ul>
-        </li>
-        <li>Copying static properties:
-          <ul style="list-style-image: none;">
-            <li>All static properties and methods from the base classes are present in the Result class.</li>
-          </ul>
-        </li>
-        <li>instanceof support:
-          <ul style="list-style-image: none;">
-            <li>instanceof checks work seamlessly for any of the base classes.</li>
-          </ul>
-        </li>
-        <li>Compatibility with getters/setters:
-          <ul style="list-style-image: none;">
-            <li>The Alchemist carefully transfers all getters and setters from the original classes into the resulting class.</li>
-          </ul>
+
         </li>
       </ul>
     </div>
   </section>
+
 <script>
   // Initialize Highlight.js
   document.addEventListener('DOMContentLoaded', () => {
@@ -177,9 +486,13 @@ superman.tellJokes();
 
       // Update code blocks globally
       document.querySelectorAll('.code-block').forEach(block => {
-        block.querySelectorAll('pre').forEach(pre => pre.classList.remove('active'));
-        block.querySelector(`pre.${target}`).classList.add('active');
-        hljs.highlightElement(block.querySelector(`pre.${target} code`));
+        (block.querySelectorAll('pre') || []).forEach(pre => pre.classList.remove('active'));
+        const languageBlocks = block.querySelector(`pre.${target}`);
+        languageBlocks &&
+          languageBlocks.classList.add('active');
+        const highlightTarget = block.querySelector(`pre.${target} code`);
+        highlightTarget &&
+          hljs.highlightElement(block.querySelector(`pre.${target} code`));
       });
     });
   });
@@ -212,9 +525,16 @@ superman.tellJokes();
         const showButton = targetSection.querySelector('.show-button');
         const hideButton = targetSection.querySelector('.hide-button');
 
-        spoilerContent.style.display = 'block';
-        showButton.style.display = 'none';
-        hideButton.style.display = 'inline';
+        if (spoilerContent) {
+          spoilerContent.style.display = 'block';
+        }
+        if (showButton) {
+          showButton.style.display = 'none';
+        }
+        if (hideButton) {
+          hideButton.style.display = 'inline';
+        }
+
         targetSection.scrollIntoView({ behavior: 'smooth' }); // Smooth scrolling
       }
     }
@@ -234,3 +554,15 @@ superman.tellJokes();
 
 </body>
 </html>
+<!--
+      <div class="code-block">
+        <div class="code-buttons">
+          <button class="active" data-target="ts">TS</button>
+          <button data-target="js">JS</button>
+        </div>
+        <pre class="ts active"><code class="language-typescript">
+        </code></pre>
+        <pre class="js"><code class="language-javascript">
+        </code></pre>
+      </div>
+-->

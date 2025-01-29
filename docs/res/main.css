@@ -144,11 +144,16 @@ pre.active {
 }
 
 .notes {
-  font-size: 80%;
+  font-size: 90%;
 }
 
 .flex-container {
   display: flex;
   flex-wrap: wrap;
 
+}
+
+.bold-italic {
+  font-weight: bold;
+  font-style: italic;
 }

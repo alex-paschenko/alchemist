@@ -1,11 +1,17 @@
 {
-  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "outDir": "./dist/cjs",
-    "module": "CommonJS",
     "target": "ES6",
+    "module": "CommonJS",
     "moduleResolution": "Node",
+    "strict": true,
+    "declaration": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "./dist/cjs",  // Теперь файлы CJS пойдут сюда
+    "sourceMap": true,
+    "rootDir": "./src"
   },
-  "include": ["build/**/*.ts", "src/**/*.ts"],
-  "exclude": ["node_modules", "dist", "coverage"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "build"]
 }
