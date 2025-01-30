@@ -102,7 +102,7 @@ describe('alchemize - built-in classes', () => {
     }
 
     const Combined = alchemize(CustomPromise, SomeClass);
-    const instance = new Combined((resolve) => resolve('done'));
+    const instance = new Combined((resolve: (p: string) => any) => resolve('done'));
 
     const result = await instance;
     expect(result).toBe('done');
