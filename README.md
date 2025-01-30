@@ -9,21 +9,25 @@ Alchemist is a fast, lightweight, zero-dependency ts/js package designed to rest
 
 <img src="docs/res/alchemist-730.png" alt="Alchemist Image" width="730">
 <h3>Installation</h3>
-npm i @lenka/alchemist
+<div style="font-family: monospace; color: Navy; background-color: FloralWhite; padding: 6px; border-radius: 3px; width: fit-content;">
+  npm i @lenka/alchemist
+</div>
 <h3>Using<h3>
 <h4>Typescript:</h4>
-import { alchemize } from '@lenka/alchemist';
+<div style="font-family: monospace; color: Navy; background-color: FloralWhite; padding: 6px; border-radius: 3px; width: fit-content;">
+  <span style="color: Purple;">import</span> { alchemize } from <span style="color: SaddleBrown">'@lenka/alchemist'</span>;
 
-alchemize(SomeClass, AnotherClass, OneMoreClass);
-
+  alchemize(<span style="color: Black">SomeClass, AnotherClass, OneMoreClass</span>);</div>
 <h4>As ES6 module:</h4>
-import { alchemize } from '@lenka/alchemist';
+<div style="font-family: monospace; color: Navy; background-color: FloralWhite; padding: 6px; border-radius: 3px; width: fit-content;">
+  <span style="color: Purple;">import</span> { alchemize } from <span style="color: SaddleBrown">'@lenka/alchemist'</span>;
 
-alchemize(SomeClass, AnotherClass, OneMoreClass);
-
+alchemize(<span style="color: Black">SomeClass, AnotherClass, OneMoreClass</span>);
+</div>
 <h4>As CommonJS module:</h4>
-const { alchemize } = require('@lenka/alchemist');
+<div style="font-family: monospace; color: Navy; background-color: FloralWhite; padding: 6px; border-radius: 3px; width: fit-content;">
+  const { alchemize } = <span style="color: Purple;">require</span>(<span style="color: SaddleBrown">'@lenka/alchemist'</span>);
 
-alchemize(SomeClass, AnotherClass, OneMoreClass);
-
+alchemize(<span style="color: Black">SomeClass, AnotherClass, OneMoreClass</span>);
+</div>
 <h3>Documentation: <a href="https://alex-paschenko.github.io/alchemist">here</a></h3>

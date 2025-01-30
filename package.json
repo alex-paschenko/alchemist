@@ -19,7 +19,7 @@
     "build": "npm test && npm run update-badges && npm run build-docs && npm run transpile",
     "transpile": "tsc && tsc --project tsconfig.cjs.json",
     "update-badges": "npx tsx ./build/updateBadges.cts",
-    "build-docs": "npx tsx ./build/buildDocs.ts",
+    "build-docs": "npx tsx ./build/buildDocs.cts",
     "test": "jest --coverage"
   },
   "repository": {

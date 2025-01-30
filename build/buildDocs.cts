@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import he from 'he';
+const he = require('he');
 
 const placeOfExamples = './examples';
 

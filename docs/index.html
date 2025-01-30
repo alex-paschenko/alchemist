@@ -79,16 +79,17 @@
   </section>
 
   <section id="motivation">
-    <div class="spoiler">
-      <div class="spoiler-header">
-        <h3>Motivation</h3>
-        <div>
-          <span class="show-button">Show</span>
-          <span class="hide-button" style="display: none;">Hide</span>
+    
+      <div class="spoiler">
+        <div class="spoiler-header">
+          <h3>Motivation</h3>
+          <div>
+            <span class="show-button">Show</span>
+            <span class="hide-button" style="display: none;">Hide</span>
+          </div>
         </div>
-      </div>
-      <div class="spoiler-content">
-        <p>Multiple inheritance is the most powerful pattern in object-oriented programming (OOP).</p>
+        <div class="spoiler-content">
+          <p>Multiple inheritance is the most powerful pattern in object-oriented programming (OOP).</p>
         <p>Of course, like any other weapon, it can be dangerous. Sure, you could accidentally shoot yourself with it.</p>
         <p>That’s why the creators of many modern programming languages decided, “Hey, let’s take away this dangerous toy
           from the user, and just to be safe, let’s strap them into a straightjacket!”</p>
@@ -129,20 +130,25 @@
           </li>
         </ul>
         <p>Describing this with classes is easier than taking candy from a baby:</p>
-        <div class="code-block"><pre class="ts active"><code class="language-typescript">сlass Captain {
-  scoldPassengers() { return 'This? This is me being polite. Wait till I actually start!'; };
-  turnOnAutopilot() { return 'Does anyone know where the damn button is?'; };
+        
+      <div class="code-block">
+        <pre class="ts active"><code class="language-typescript">class Captain {
+  scoldPassengers() { return &#x27;This? This is me being polite. Wait till I actually start!&#x27;; };
+  turnOnAutopilot() { return &#x27;Does anyone know where the damn button is?&#x27;; };
 }
 
 class CoPilot {
-  playMusic() { return 'Oh, come on, my singing’s fine.'; };
-  useGPS() { return 'The GPS isn’t working: I left my phone somewhere.'; };
+  playMusic() { return &#x27;Oh, come on, my singing&#x2019;s fine.&#x27;; };
+  useGPS() { return &#x27;The GPS isn&#x2019;t working: I left my phone somewhere.&#x27;; };
 }
 
 class FlightEngineer {
-  tellJokes() { return 'So, an Irishman walks into a pub…'; };
-  wakeUpCrew() { return 'First, someone needs to wake me up.'; };
-}       </code></pre></div>
+  tellJokes() { return &#x27;So, an Irishman walks into a pub&#x2026;&#x27;; };
+  wakeUpCrew() { return &#x27;First, someone needs to wake me up.&#x27;; };
+}
+</code></pre>
+      </div>
+    
         <p>"Perfect!" says the company owner after looking at the result of our work.
           "Just one small comment. You see, my airline isn’t exactly in the top ten
           global leaders (by the way, will $5 be enough for your work?). So, not all
@@ -154,8 +160,9 @@ class FlightEngineer {
         <p>But we’re not here to talk about the problems. We’re here to talk about the solution.</p>
         <p>Fortunately, neither our earnings nor our reputation are at risk: the Alchemist package brings simplicity
           back to these simple things:</p>
+        </div>
       </div>
-    </div>
+    
   </section>
 
   <section id="simple-example">
@@ -197,6 +204,7 @@ superman.tellJokes();
       <p><span class="inline-code language-javascript">alchemize()</span> is supposed to combine several
         classes into one. But <span class="bold-italic">how</span> is it supposed to do that?</p>
       <p>For example, the original classes take some parameters in their constructors:</p>
+      
       <div class="code-block">
         <div class="code-buttons">
           <button class="active" data-target="ts">TS</button>
@@ -214,7 +222,7 @@ class Person {
   constructor(private firstName: string, private lastName: string) {}
 
   get fullName(): string {
-    return `${this.firstName} ${this.lastName}`;
+    return &#x60;${this.firstName} ${this.lastName}&#x60;;
   }
 }</code></pre>
         <pre class="js"><code class="language-javascript">class Volume {
@@ -242,23 +250,19 @@ class Person {
   }
 
   get fullName() {
-    return `${this.#firstName} ${this.#lastName}`;
+    return &#x60;${this.#firstName} ${this.#lastName}&#x60;;
   }
 }</code></pre>
       </div>
+    
       <p>Obviously, our combined class should also take all those parameters:</p>
+      
       <div class="code-block">
-        <div class="code-buttons">
-          <button class="active" data-target="ts">TS</button>
-          <button data-target="js">JS</button>
-        </div>
         <pre class="ts active"><code class="language-typescript">const VolumeOfPerson = alchemize(Volume, Person);
 
-const instance = new VolumeOfPerson(25, 18, 38, &apos;John&apos;, &apos;Dow&apos;);</code></pre>
-        <pre class="js"><code class="language-javascript">const VolumeOfPerson = alchemize(Volume, Person);
-
-const instance = new VolumeOfPerson(25, 18, 38, &apos;John&apos;, &apos;Dow&apos;);</code></pre>
+const instance = new VolumeOfPerson(25, 18, 38, &#x27;John&#x27;, &#x27;Dow&#x27;);</code></pre>
       </div>
+    
       <p>But how will it know what to do with them?</p>
       <p>So, what do we usually do in plain old JavaScript when working with single inheritance?
         In the constructor of the derived class, we call the constructor of the base class (using
@@ -288,12 +292,13 @@ const instance = new VolumeOfPerson(25, 18, 38, &apos;John&apos;, &apos;Dow&apos
             <span class="inline-code language-javascript">recipe(...)</span> is a function that takes a set of instructions
             and returns an object with a configured <span class="inline-code language-javascript">alchemize(...)</span>
             function:</p>
-            <div class="code-block">
-              <div class="code-buttons">
-                <button class="active" data-target="ts">TS</button>
-                <button data-target="js">JS</button>
-              </div>
-              <pre class="ts active"><code class="language-typescript">import { recipe, Recipe } from '@lenka/alchemist';
+          
+      <div class="code-block">
+        <div class="code-buttons">
+          <button class="active" data-target="ts">TS</button>
+          <button data-target="js">JS</button>
+        </div>
+        <pre class="ts active"><code class="language-typescript">import { recipe, Recipe } from &#x27;@lenka/alchemist&#x27;;
 
 // For your convenience, Alchemize offers a handy helper
 // type called Recipe.
@@ -315,7 +320,7 @@ const TheSameCombinedClass =
   tunedAlchemize(SomeClassA, SomeClassB);
 
 const instance = new CombinedClass(...);</code></pre>
-              <pre class="js"><code class="language-javascript">import { recipe } from '@lenka/alchemist';
+        <pre class="js"><code class="language-javascript">import { recipe } from &#x27;@lenka/alchemist&#x27;;
 
 const prescription = { instanceOfSupport: true };
 
@@ -335,7 +340,8 @@ const TheSameCombinedClass =
   tunedAlchemize(SomeClassA, SomeClassB);
 
 const instance = new CombinedClass(...);</code></pre>
-            </div>
+      </div>
+    
         </div>
       </div>
       <p><span class="inline-code language-typescript">recipe(...)</span> takes a single parameter –
